@@ -36,8 +36,8 @@ def login_via_oauth2(realmId, oauth_verifier):
 	 
 	quickbooks = QuickBooks(
        sandbox=True,
-       consumer_key = quickbooks_settings.consumer_key,
-       consumer_secret = quickbooks_settings.consumer_secret,
+		client_id = quickbooks_settings.client_id,
+		client_secret = quickbooks_settings.client_secret,
        minorversion=4
      )
 
@@ -52,21 +52,21 @@ def login_via_oauth2(realmId, oauth_verifier):
 
 	quickbooks_settings.realm_id = realmId
 	quickbooks_settings.access_token = quickbooks.access_token
-	quickbooks_settings.access_token_secret = quickbooks.access_token_secret 
+	quickbooks_settings.access_token_secret = quickbooks.access_token_key
 	quickbooks_settings.save()
 	frappe.db.commit()
 	
 		 
 @frappe.whitelist(allow_guest=True)
-def quickbooks_authentication_popup(consumer_key, consumer_secret):
+def quickbooks_authentication_popup(client_id, client_secret):
 	""" Open new popup window to Connect Quickbooks App to Quickbooks sandbox Account """
 
 	quickbooks_settings = frappe.get_doc("Quickbooks Settings")
 
 	quickbooks = QuickBooks(
            sandbox=True,
-           consumer_key = quickbooks_settings.consumer_key,
-           consumer_secret = quickbooks_settings.consumer_secret,
+		client_id = quickbooks_settings.client_id,
+		client_secret = quickbooks_settings.client_secret,
            callback_url = 'http://'+ frappe.request.host + '/api/method/erpnext_quickbooks.erpnext_quickbooks.doctype.quickbooks_settings.quickbooks_settings.First_callback'
     )
 

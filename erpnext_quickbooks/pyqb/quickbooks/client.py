@@ -8,7 +8,7 @@ except ImportError:  # Python 2
 from .exceptions import QuickbooksException, SevereException
 
 try:
-    from rauth import OAuth1Session, OAuth1Service
+    from rauth import OAuth2Session, OAuth2Service
 except ImportError:
     print("Please import Rauth:\n\n")
     print("http://rauth.readthedocs.org/en/latest/\n")
@@ -20,9 +20,9 @@ class QuickBooks(object):
     """A wrapper class around Python's Rauth module for Quickbooks the API"""
 
     access_token = ''
-    access_token_secret = ''
-    consumer_key = ''
-    consumer_secret = ''
+    access_token_key = ''
+    client_id = ''
+    client_secret = ''
     company_id = 0
     callback_url = ''
     session = None
@@ -58,17 +58,17 @@ class QuickBooks(object):
         if QuickBooks.__instance is None:
             QuickBooks.__instance = object.__new__(cls)
 
-        if 'consumer_key' in kwargs:
-            cls.consumer_key = kwargs['consumer_key']
+        if 'client_id' in kwargs:
+            cls.client_id = kwargs['client_id']
 
-        if 'consumer_secret' in kwargs:
-            cls.consumer_secret = kwargs['consumer_secret']
+        if 'client_secret' in kwargs:
+            cls.client_secret = kwargs['client_secret']
 
         if 'access_token' in kwargs:
             cls.access_token = kwargs['access_token']
 
-        if 'access_token_secret' in kwargs:
-            cls.access_token_secret = kwargs['access_token_secret']
+        if 'access_token_key' in kwargs:
+            cls.access_token_key = kwargs['access_token_key']
 
         if 'company_id' in kwargs:
             cls.company_id = kwargs['company_id']
@@ -99,12 +99,12 @@ class QuickBooks(object):
             return self.api_url_v3
 
     def create_session(self):
-        if self.consumer_secret and self.consumer_key and self.access_token_secret and self.access_token:
-            session = OAuth1Session(
-                self.consumer_key,
-                self.consumer_secret,
-                self.access_token,
-                self.access_token_secret,
+        if self.client_secret and self.client_id and self.access_token_key and self.access_token:
+            session = OAuth2Session(
+                client_id = self.client_id,
+                client_secret = self.client_secret,
+                access_token = self.access_token,
+                access_token_key = self.access_token_key,
             )
             self.session = session
         else:
@@ -130,11 +130,10 @@ class QuickBooks(object):
         return self.qbService.get_authorize_url(self.request_token)
 
     def set_up_service(self):
-        self.qbService = OAuth1Service(
+        self.qbService = OAuth2Service(
             name=None,
-            consumer_key=self.consumer_key,
-            consumer_secret=self.consumer_secret,
-            request_token_url=self.request_token_url,
+            client_id=self.client_id,
+            client_secret=self.client_secret,
             access_token_url=self.access_token_url,
             authorize_url=self.authorize_url,
             base_url=None
@@ -143,7 +142,7 @@ class QuickBooks(object):
     def get_access_tokens(self, oauth_verifier):
         """
         Wrapper around get_auth_session, returns session, and sets access_token and
-        access_token_secret on the QB Object.
+        access_token_key on the QB Object.
         :param oauth_verifier: the oauth_verifier as specified by OAuth 1.0a
         """
         session = self.qbService.get_auth_session(
@@ -152,7 +151,7 @@ class QuickBooks(object):
             data={'oauth_verifier': oauth_verifier})
 
         self.access_token = session.access_token
-        self.access_token_secret = session.access_token_secret
+        self.access_token_key = session.access_token_key
 
         return session
 

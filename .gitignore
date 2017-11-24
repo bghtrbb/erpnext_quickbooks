@@ -3,4 +3,5 @@
 *.egg-info
 *.swp
 tags
+/.idea
 erpnext_quickbooks/docs/current
