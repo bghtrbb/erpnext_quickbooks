@@ -53,7 +53,7 @@ def login_via_oauth2(realmId, oauth_verifier):
 
     quickbooks_settings.realm_id = realmId
     quickbooks_settings.access_token = quickbooks.access_token
-    quickbooks_settings.access_token_secret = quickbooks.access_token_key
+    quickbooks_settings.access_token_key = quickbooks.access_token_key
     quickbooks_settings.save()
     frappe.db.commit()
 

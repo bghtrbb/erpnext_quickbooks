@@ -70,10 +70,10 @@ def sync_from_quickbooks_to_erp(quickbooks_settings):
 
 	quickbooks_obj = QuickBooks(
 	    sandbox=True,
-	    consumer_key=quickbooks_settings.consumer_key,
-	    consumer_secret=quickbooks_settings.consumer_secret,
+		client_id=quickbooks_settings.client_id,
+		client_secret=quickbooks_settings.client_secret,
 	    access_token=quickbooks_settings.access_token,
-	    access_token_secret=quickbooks_settings.access_token_secret,
+		access_token_key=quickbooks_settings.access_token_key,
 	    company_id=quickbooks_settings.realm_id
 	)
 	sync_customers(quickbooks_obj)

@@ -24,12 +24,12 @@ cur_frm.fields_dict["taxes"].grid.get_field("tax_account").get_query = function(
 
 cur_frm.cscript.connect_to_qb = function () {
 	var me = this;
-	if((cur_frm.doc.consumer_key != null) && (cur_frm.doc.consumer_secret != null) && (cur_frm.doc.consumer_key.trim() != "") && (cur_frm.doc.consumer_secret.trim() != "")){
+	if((cur_frm.doc.client_id != null) && (cur_frm.doc.client_secret != null) && (cur_frm.doc.client_id.trim() != "") && (cur_frm.doc.client_secret.trim() != "")){
 		return frappe.call({
 				method: "erpnext_quickbooks.erpnext_quickbooks.doctype.quickbooks_settings.quickbooks_settings.quickbooks_authentication_popup",
 				args:{ 
-					"consumer_key": cur_frm.doc.consumer_key,
-					"consumer_secret": cur_frm.doc.consumer_secret},
+					"client_id": cur_frm.doc.client_id,
+					"client_secret": cur_frm.doc.client_secret},
 				freeze: true,
 	 			freeze_message:"Please wait.. connecting to Quickbooks ................",
 				callback: function(r) {
@@ -39,7 +39,7 @@ cur_frm.cscript.connect_to_qb = function () {
 				}
 		});
 	}else{
-		msgprint(__("Please Enter Proper Consumer Key and Consumer Secret"));
+		msgprint(__("Please Enter Proper Client Id and Client Secret"));
 	}
 }, 
  
