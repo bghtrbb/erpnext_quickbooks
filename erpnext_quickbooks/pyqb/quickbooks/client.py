@@ -29,13 +29,16 @@ class QuickBooks(object):
     session = None
     sandbox = False
     minorversion = None
+    scope = 'com.intuit.quickbooks.accounting'
+    response_type = 'code'
+    state = 'NONE'
 
     qbService = None
 
     sandbox_api_url_v3 = "https://sandbox-quickbooks.api.intuit.com/v3"
     api_url_v3 = "https://quickbooks.api.intuit.com/v3"
 
-    access_token_url = "as https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer"
+    access_token_url = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer"
 
     authorize_url = "https://appcenter.intuit.com/connect/oauth2"
 
@@ -120,7 +123,8 @@ class QuickBooks(object):
         if self.qbService is None:
             self.set_up_service()
 
-        return self.qbService.get_authorize_url()
+        auth_url = self.qbService.get_authorize_url()+'&scope='+self.scope+'&redirect_uri='+self.callback_url+'&response_type='+self.response_type+'&state='+self.state
+        return auth_url
 
     def set_up_service(self):
         self.qbService = OAuth2Service(
