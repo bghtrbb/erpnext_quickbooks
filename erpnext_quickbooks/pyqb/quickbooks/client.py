@@ -113,20 +113,13 @@ class QuickBooks(object):
 
     def get_authorize_url(self):
         """
-        Returns the Authorize URL as returned by QB, and specified by OAuth 1.0a.
+        Returns the Authorize URL as returned by QB.
         :return URI:
         """
         if self.qbService is None:
             self.set_up_service()
 
-        response = self.qbService.get_raw_access_token(
-           params={'oauth_callback': self.callback_url})
-
-        oauth_resp = dict(parse_qsl(response.text))
-        self.request_token = oauth_resp['oauth_token']
-        self.request_token_secret = oauth_resp['oauth_token_secret']
-
-        return self.qbService.get_authorize_url(self.request_token)
+        return self.qbService.get_authorize_url()
 
     def set_up_service(self):
         self.qbService = OAuth2Service(
