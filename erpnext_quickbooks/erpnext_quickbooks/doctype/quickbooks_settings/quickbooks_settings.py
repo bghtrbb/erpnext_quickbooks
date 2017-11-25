@@ -43,8 +43,8 @@ def login_via_oauth2(realmId, oauth_verifier):
     )
 
     quickbooks.authorize_url = quickbooks_settings.authorize_url
-    quickbooks.request_token = quickbooks_settings.request_token
-    quickbooks.request_token_secret = quickbooks_settings.request_token_secret
+    quickbooks.access_token = quickbooks_settings.access_token
+    quickbooks.access_token_key = quickbooks_settings.access_token_key
     quickbooks.set_up_service()
 
     quickbooks.get_access_tokens(oauth_verifier)
@@ -72,8 +72,8 @@ def quickbooks_authentication_popup(client_id, client_secret):
     )
 
     quickbooks_settings.authorize_url = quickbooks.get_authorize_url()
-    quickbooks_settings.request_token = quickbooks.request_token
-    quickbooks_settings.request_token_secret = quickbooks.request_token_secret
+    quickbooks_settings.access_token = quickbooks.access_token
+    quickbooks_settings.access_token_key = quickbooks.access_token_key
     quickbooks_settings.save()
     frappe.db.commit()
     return quickbooks_settings.authorize_url
