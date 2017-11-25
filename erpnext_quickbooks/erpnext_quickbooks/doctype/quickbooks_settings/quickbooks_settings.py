@@ -50,8 +50,11 @@ def login_via_oauth2(realmId, oauth_verifier):
     quickbooks.get_access_tokens(oauth_verifier)
 
     quickbooks.company_id = realmId
-
+    quickbooks.realm_id = realmId
     quickbooks_settings.realm_id = realmId
+    quickbooks_settings.company_id = realmId
+
+
     quickbooks_settings.access_token = quickbooks.access_token
     quickbooks_settings.access_token_key = quickbooks.access_token_key
     quickbooks_settings.save()

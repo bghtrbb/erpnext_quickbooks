@@ -24,6 +24,7 @@ class QuickBooks(object):
     client_id = ''
     client_secret = ''
     company_id = 0
+    realm_id = 0
     callback_url = ''
     session = None
     sandbox = False
