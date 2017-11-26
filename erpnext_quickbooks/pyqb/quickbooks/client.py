@@ -146,9 +146,11 @@ class QuickBooks(object):
         data = dict(code=code, redirect_uri=self.callback_url,grant_type='authorization_code')
 
         # retrieve the authenticated session
-        session = self.qbService.get_auth_session(data=data)
+        token = self.qbService.get_access_token(decoder=parse_qsl, data=data)
 
-        self.access_token = session.access_token
+        session = self.qbService.get_session(token)
+
+        self.access_token = token
 
         return session
 
