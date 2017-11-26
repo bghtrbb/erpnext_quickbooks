@@ -49,8 +49,8 @@ def sync_quickbooks_resources():
 					method="sync_quickbooks_resources",
 					message=e.message+":::"+frappe.get_traceback(),
 					exception=True)
-					
-				disable_quickbooks_sync_on_exception()
+
+				#disable_quickbooks_sync_on_exception()
 			
 			else:
 				make_quickbooks_log(
@@ -99,12 +99,31 @@ def validate_quickbooks_settings(quickbooks_settings):
 		disable_quickbooks_sync_on_exception()
 
 
-
+@frappe.whitelist()
 def sync_from_erp_to_quickbooks():
-	sync_erp_customers()
-	sync_erp_suppliers()
-	sync_erp_employees()
-	sync_erp_accounts()
-	sync_erp_items()
-	sync_erp_purchase_invoices()
-	sync_erp_purchase_invoices()
+	quickbooks_settings = frappe.get_doc("Quickbooks Settings")
+
+	make_quickbooks_log(title="Sync Job Queued", status="Queued", method=frappe.local.form_dict.cmd,
+						message="Pushing ErpNext To Quickbooks")
+
+	if quickbooks_settings.enable_quickbooks_online:
+		try:
+			if quickbooks_settings.quickbooks_to_erpnext:
+				validate_quickbooks_settings(quickbooks_settings)
+				sync_erp_customers()
+				sync_erp_suppliers()
+				sync_erp_employees()
+				sync_erp_accounts()
+				sync_erp_items()
+				sync_erp_purchase_invoices()
+				sync_erp_purchase_invoices()
+				make_quickbooks_log(title="Sync Completed", status="Success", method=frappe.local.form_dict.cmd,
+									message="ErpNext Successfully Pushed To Quickbooks")
+
+		except Exception, e:
+			make_quickbooks_log(
+				title="Error Syncing Quickbooks",
+				status="Error",
+				method="sync_quickbooks_resources",
+				message=e.message + ":::" + frappe.get_traceback(),
+				exception=True)

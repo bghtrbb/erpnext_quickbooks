@@ -20,7 +20,7 @@ class QuickBooks(object):
     """A wrapper class around Python's Rauth module for Quickbooks the API"""
 
     access_token = ''
-    access_token_key = ''
+    access_token_key = 'access_token'
     client_id = ''
     client_secret = ''
     company_id = 0
@@ -41,9 +41,6 @@ class QuickBooks(object):
     access_token_url = "https://oauth.platform.intuit.com/oauth2/v1/tokens/bearer"
 
     authorize_url = "https://appcenter.intuit.com/connect/oauth2"
-
-    request_token = ''
-    request_token_secret = ''
 
     _BUSINESS_OBJECTS = [
         "Account", "Attachable", "Bill", "BillPayment",

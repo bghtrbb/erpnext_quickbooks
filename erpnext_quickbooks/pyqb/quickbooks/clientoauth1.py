@@ -20,7 +20,7 @@ class QuickBooks(object):
     """A wrapper class around Python's Rauth module for Quickbooks the API"""
 
     access_token = ''
-    access_token_key = ''
+    access_token_key = 'access_token'
     client_id = ''
     client_secret = ''
     company_id = 0

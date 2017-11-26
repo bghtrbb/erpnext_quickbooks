@@ -58,6 +58,21 @@ cur_frm.cscript.sync_data_to_qb = function (frm) {
 	
 },
 
+	cur_frm.cscript.sync_push_to_quickbooks = function (frm) {
+	var me = this;
+	// if(me.quickbooks_authentication_url){
+	if(!cur_frm.doc.__islocal && cur_frm.doc.enable_quickbooks_online=== 1){
+		cur_frm.toggle_reqd("selling_price_list", true);
+		cur_frm.toggle_reqd("buying_price_list", true);
+		cur_frm.toggle_reqd("warehouse", true);
+
+		return frappe.call({
+				method: "erpnext_quickbooks.api.sync_from_erp_to_quickbooks",
+			});
+	}
+
+},
+
 pop_up_window = function(url,windowName) {
 	window.location.assign(url)
 }
