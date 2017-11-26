@@ -44,7 +44,7 @@ def sync_quickbooks_resources():
 		except Exception, e:
 			if e.args[0]:
 				make_quickbooks_log(
-					title="QuickBooks has suspended your account",
+					title="Error Syncing Quickbooks",
 					status="Error",
 					method="sync_quickbooks_resources",
 					message=e.message+":::"+frappe.get_traceback(),
@@ -73,7 +73,6 @@ def sync_from_quickbooks_to_erp(quickbooks_settings):
 		client_id=quickbooks_settings.client_id,
 		client_secret=quickbooks_settings.client_secret,
 	    access_token=quickbooks_settings.access_token,
-		access_token_key=quickbooks_settings.access_token_key,
 	    company_id=quickbooks_settings.realm_id
 	)
 	sync_customers(quickbooks_obj)

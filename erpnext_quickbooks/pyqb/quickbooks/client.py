@@ -104,9 +104,9 @@ class QuickBooks(object):
     def create_session(self):
         if self.client_secret and self.client_id and self.access_token:
             session = OAuth2Session(
-                client_id = self.client_id,
-                client_secret = self.client_secret,
-                access_token = self.access_token
+                client_id=self.client_id,
+                client_secret=self.client_secret,
+                access_token=self.access_token
             )
             self.session = session
         else:
@@ -122,7 +122,7 @@ class QuickBooks(object):
         if self.qbService is None:
             self.set_up_service()
 
-        auth_url = self.qbService.get_authorize_url()+'&scope='+self.scope+'&redirect_uri='+self.callback_url+'&response_type='+self.response_type+'&state='+self.state
+        auth_url = self.qbService.get_authorize_url() + '&scope=' + self.scope + '&redirect_uri=' + self.callback_url + '&response_type=' + self.response_type + '&state=' + self.state
         return auth_url
 
     def set_up_service(self):
@@ -142,7 +142,7 @@ class QuickBooks(object):
         """
 
         # create a dictionary for the data we'll post on the get_access_token request
-        data = dict(code=code, redirect_uri=self.callback_url,grant_type='authorization_code')
+        data = dict(code=code, redirect_uri=self.callback_url, grant_type='authorization_code')
 
         # retrieve the authenticated session
         token = self.qbService.get_access_token(decoder=json.loads, data=data)
@@ -153,14 +153,13 @@ class QuickBooks(object):
 
         return session
 
-
     def make_request(self, request_type, url, request_body=None, content_type='application/json'):
 
         params = {}
 
         if self.minorversion:
             params['minorversion'] = self.minorversion
-        print "params",type (params), params 
+        print "params", type(params), params
 
         if not request_body:
             request_body = {}
@@ -173,8 +172,8 @@ class QuickBooks(object):
             'Accept': 'application/json'
         }
 
-        #req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
-        req = self.session.request(request_type, url, True, {"headers": headers, "params": params, "data": request_body})
+        # req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
+        req = self.session.request(request_type, url, True, headers=headers, params=params, data=request_body)
 
         try:
             result = req.json()
@@ -191,9 +190,9 @@ class QuickBooks(object):
         params = {}
         if self.minorversion:
             params['minorversion'] = self.minorversion
-        params['query'] =  request_body
+        params['query'] = request_body
 
-        print "params",type (params), params ,type (params['query'])
+        print "params", type(params), params, type(params['query'])
         if not request_body:
             request_body = {}
 
@@ -205,10 +204,11 @@ class QuickBooks(object):
             'Accept': 'application/json'
         }
 
-        #req = self.session.request(request_type, url, True, str(self.company_id), headers=headers, params=params)
-        req = self.session.request(request_type, url, True, {"headers": headers, "params": params})
+        info = {'headers': headers, 'params': params}
+        # req = self.session.request(request_type, url, True, str(self.company_id), headers=headers, params=params)
+        req = self.session.request(request_type, url, True, headers=headers, params=params)
         ######### req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
-        
+
         try:
             result = req.json()
         except:
@@ -285,8 +285,8 @@ class QuickBooks(object):
             'Accept': 'application/pdf, application/json',
         }
 
-        #response = self.session.request("GET", url, True, self.company_id, headers=headers)
-        response = self.session.request("GET", url, True, {"headers": headers})
+        # response = self.session.request("GET", url, True, self.company_id, headers=headers)
+        response = self.session.request("GET", url, True, headers=headers)
 
         if response.status_code is not httplib.OK:
             try:
