@@ -106,8 +106,7 @@ class QuickBooks(object):
             session = OAuth2Session(
                 client_id = self.client_id,
                 client_secret = self.client_secret,
-                access_token = self.access_token,
-                access_token_key = self.access_token_key,
+                access_token = self.access_token
             )
             self.session = session
         else:
