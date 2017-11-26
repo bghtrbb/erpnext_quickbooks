@@ -47,7 +47,7 @@ def sync_quickbooks_resources():
 					title="QuickBooks has suspended your account",
 					status="Error",
 					method="sync_quickbooks_resources",
-					message=_("""QuickBooks has suspended your account till you complete the payment. We have disabled ERPNext Quickbooks Sync. Please enable it once your complete the payment at Quickbooks Online."""),
+					message=e.strerror+" ::: "+e.message+":::"+frappe.get_traceback(),
 					exception=True)
 					
 				disable_quickbooks_sync_on_exception()
