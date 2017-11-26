@@ -136,16 +136,17 @@ class QuickBooks(object):
             base_url=None
         )
 
-    def get_access_tokens(self, oauth_verifier):
+    def get_access_tokens(self, code):
         """
         Wrapper around get_auth_session, returns session, and sets access_token and
         access_token_key on the QB Object.
-        :param oauth_verifier: the oauth_verifier as specified by OAuth 1.0a
         """
-        session = self.qbService.get_auth_session(
-            self.request_token,
-            self.request_token_secret,
-            data={'oauth_verifier': oauth_verifier})
+
+        # create a dictionary for the data we'll post on the get_access_token request
+        data = dict(code=code, redirect_uri=self.callback_url)
+
+        # retrieve the authenticated session
+        session = self.qbService.get_auth_session(data=data)
 
         self.access_token = session.access_token
         self.access_token_key = session.access_token_key

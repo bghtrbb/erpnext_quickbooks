@@ -24,13 +24,13 @@ class QuickbooksSettings(Document):
 
 
 @frappe.whitelist(allow_guest=True)
-def First_callback(realmId, oauth_verifier):
-    login_via_oauth2(realmId, oauth_verifier)
+def First_callback(realmId, code):
+    login_via_oauth2(realmId, code)
     frappe.local.response["type"] = "redirect"
     frappe.local.response["location"] = "/desk#Form/Quickbooks Settings"
 
 
-def login_via_oauth2(realmId, oauth_verifier):
+def login_via_oauth2(realmId, code):
     """ Store necessary token's to Setup service """
 
     quickbooks_settings = frappe.get_doc("Quickbooks Settings")
@@ -43,11 +43,9 @@ def login_via_oauth2(realmId, oauth_verifier):
     )
 
     quickbooks.authorize_url = quickbooks_settings.authorize_url
-    quickbooks.access_token = quickbooks_settings.access_token
-    quickbooks.access_token_key = quickbooks_settings.access_token_key
     quickbooks.set_up_service()
 
-    quickbooks.get_access_tokens(oauth_verifier)
+    quickbooks.get_access_tokens(code)
 
     quickbooks.company_id = realmId
     quickbooks.realm_id = realmId
