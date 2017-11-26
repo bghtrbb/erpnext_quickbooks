@@ -173,7 +173,8 @@ class QuickBooks(object):
             'Accept': 'application/json'
         }
 
-        req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
+        #req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
+        req = self.session.request(request_type, url, True, {"headers": headers, "params": params, "data": request_body})
 
         try:
             result = req.json()
@@ -203,9 +204,10 @@ class QuickBooks(object):
             'Content-Type': content_type,
             'Accept': 'application/json'
         }
-        
-        req = self.session.request(request_type, url, True, str(self.company_id), headers=headers, params=params)
-        # req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
+
+        #req = self.session.request(request_type, url, True, str(self.company_id), headers=headers, params=params)
+        req = self.session.request(request_type, url, True, {"headers": headers, "params": params})
+        ######### req = self.session.request(request_type, url, True, self.company_id, headers=headers, params=params, data=request_body)
         
         try:
             result = req.json()
@@ -283,7 +285,8 @@ class QuickBooks(object):
             'Accept': 'application/pdf, application/json',
         }
 
-        response = self.session.request("GET", url, True, self.company_id, headers=headers)
+        #response = self.session.request("GET", url, True, self.company_id, headers=headers)
+        response = self.session.request("GET", url, True, {"headers": headers})
 
         if response.status_code is not httplib.OK:
             try:
