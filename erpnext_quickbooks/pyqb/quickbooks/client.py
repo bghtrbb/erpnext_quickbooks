@@ -102,7 +102,7 @@ class QuickBooks(object):
             return self.api_url_v3
 
     def create_session(self):
-        if self.client_secret and self.client_id and self.access_token_key and self.access_token:
+        if self.client_secret and self.client_id and and self.access_token:
             session = OAuth2Session(
                 client_id = self.client_id,
                 client_secret = self.client_secret,
