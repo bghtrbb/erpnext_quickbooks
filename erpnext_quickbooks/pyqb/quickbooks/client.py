@@ -143,13 +143,12 @@ class QuickBooks(object):
         """
 
         # create a dictionary for the data we'll post on the get_access_token request
-        data = dict(code=code, redirect_uri=self.callback_url)
+        data = dict(code=code, redirect_uri=self.callback_url,grant_type='authorization_code')
 
         # retrieve the authenticated session
         session = self.qbService.get_auth_session(data=data)
 
         self.access_token = session.access_token
-        self.access_token_key = session.access_token_key
 
         return session
 
