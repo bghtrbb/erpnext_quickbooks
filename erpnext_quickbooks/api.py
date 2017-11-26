@@ -47,7 +47,7 @@ def sync_quickbooks_resources():
 					title="QuickBooks has suspended your account",
 					status="Error",
 					method="sync_quickbooks_resources",
-					message=e.strerror+" ::: "+e.message+":::"+frappe.get_traceback(),
+					message=e.message+":::"+frappe.get_traceback(),
 					exception=True)
 					
 				disable_quickbooks_sync_on_exception()
